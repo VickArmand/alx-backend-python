@@ -6,6 +6,7 @@ Play with it in the Python console to make sure you understand.
 """
 import unittest
 import utils
+from typing import Mapping, Sequence, Union, Dict
 from parameterized import parameterized
 
 
@@ -20,7 +21,10 @@ class TestAccessNestedMap(unittest.TestCase):
         ({"a": {"b": 2}}, ("a",), {"b": 2}),
         ({"a": {"b": 2}}, ("a", "b"), 2)
     ])
-    def test_access_nested_map(self, nested_map, path, expected):
+    def test_access_nested_map(self,
+                               nested_map: Mapping,
+                               path: Sequence,
+                               expected: Union[int, Dict]) -> None:
         """
         method to test that the utils.access_nested_map method
         returns what it is supposed to
@@ -39,7 +43,9 @@ class TestAccessNestedMap(unittest.TestCase):
         ({}, ("a",)),
         ({"a": 1}, ("a", "b"))
     ])
-    def test_access_nested_map_exception(self, nested_map, path):
+    def test_access_nested_map_exception(self,
+                                         nested_map: Mapping,
+                                         path: Sequence) -> None:
         """
         Use the assertRaises context manager to test
         that a KeyError is raised for the
