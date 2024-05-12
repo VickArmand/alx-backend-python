@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-Familiarize yourself with the utils.access_nested_map function
-and understand its purpose.
-Play with it in the Python console to make sure you understand.
+test_utils module has test classes
+for testing the utils module
 """
 import unittest
+from unittest.mock import patch
 import utils
 from typing import Mapping, Sequence, Union, Dict
 from parameterized import parameterized
@@ -55,3 +55,31 @@ class TestAccessNestedMap(unittest.TestCase):
         """
         with self.assertRaises(Exception):
             utils.access_nested_map(nested_map, path)
+
+
+class TestGetJson(unittest.TestCase):
+    """
+    tests the utils.get_json method
+    """
+    @parameterized.expand([
+        ("http://example.com", {"payload": True}),
+        ("http://holberton.io", {"payload": False})
+    ])
+    @patch('utils.get_json')
+    def test_get_json(self, url, expected_payload, mock_get):
+        """
+        We don’t want to make any actual external HTTP calls.
+        Use unittest.mock.patch to patch requests.get.
+        Make sure it returns a Mock object with a json method that
+        returns test_payload which you parametrize alongside the
+        test_url that you will pass to get_json with the following inputs:
+        test_url="http://example.com", test_payload={"payload": True}
+        test_url="http://holberton.io", test_payload={"payload": False}
+        Test that the mocked get method was called exactly once (per input)
+        with test_url as argument.
+        Test that the output of get_json is equal to test_payload.
+        """
+        mock_get.return_value = expected_payload
+        result = utils.get_json(url)
+        self.assertEqual(result, expected_payload)
+        mock_get.assert_called_once_with(url)
