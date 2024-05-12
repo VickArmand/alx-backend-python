@@ -34,3 +34,17 @@ class TestAccessNestedMap(unittest.TestCase):
         The body of the test method should not be longer than 2 lines.
         """
         self.assertEqual(utils.access_nested_map(nested_map, path), expected)
+
+    @parameterized.expand([
+        ({}, ("a",), KeyError('a')),
+        ({"a": 1}, ("a", "b"), KeyError('b'))
+    ])
+    def test_access_nested_map_exception(self, nested_map, path, expected):
+        """
+        Use the assertRaises context manager to test
+        that a KeyError is raised for the
+        following inputs (use @parameterized.expand)
+        nested_map={}, path=("a",)
+        nested_map={"a": 1}, path=("a", "b")
+        """
+        self.assertRaises(utils.access_nested_map(nested_map, path), expected)
