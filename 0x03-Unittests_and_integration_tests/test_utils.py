@@ -88,17 +88,25 @@ class TestGetJson(unittest.TestCase):
 
 
 class TestMemoize(unittest.TestCase):
-    """"""
+    """class with a test_memoize method"""
     def test_memoize(self):
-        """"""
+        """
+        Use unittest.mock.patch to mock a_method.
+        Test that when calling a_property twice,
+        the correct result is returned but a_method
+        is only called once using assert_called_once
+        """
         class TestClass:
-            """"""
+            """
+            Testclass
+            """
             def a_method(self):
                 return 42
 
             @memoize
             def a_property(self):
                 return self.a_method()
+
         test = TestClass()
         with patch.object(TestClass, 'a_method') as patched_method:
             test.a_property()
