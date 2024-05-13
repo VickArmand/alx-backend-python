@@ -6,6 +6,8 @@ for testing the utils module
 import unittest
 from unittest.mock import patch
 import utils
+import requests
+from utils import memoize
 from typing import Mapping, Sequence, Union, Dict
 from parameterized import parameterized
 
@@ -65,7 +67,7 @@ class TestGetJson(unittest.TestCase):
         ("http://example.com", {"payload": True}),
         ("http://holberton.io", {"payload": False})
     ])
-    @patch('utils.get_json')
+    @patch('requests.get')
     def test_get_json(self, url, expected_payload, mock_get):
         """
         We don’t want to make any actual external HTTP calls.
@@ -79,7 +81,22 @@ class TestGetJson(unittest.TestCase):
         with test_url as argument.
         Test that the output of get_json is equal to test_payload.
         """
-        mock_get.return_value = expected_payload
+        mock_get.return_value.json.return_value = expected_payload
         result = utils.get_json(url)
         self.assertEqual(result, expected_payload)
         mock_get.assert_called_once_with(url)
+
+
+class TestMemoize(unittest.TestCase):
+    """"""
+    def test_memoize():
+        """"""
+        class TestClass:
+            """"""
+            @patch
+            def a_method(self):
+                return 42
+
+            @memoize
+            def a_property(self):
+                return self.a_method()
