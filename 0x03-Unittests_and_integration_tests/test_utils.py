@@ -4,7 +4,7 @@ test_utils module has test classes
 for testing the utils module
 """
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
 import utils
 import requests
 from utils import memoize
@@ -68,7 +68,9 @@ class TestGetJson(unittest.TestCase):
         ("http://holberton.io", {"payload": False})
     ])
     @patch('requests.get')
-    def test_get_json(self, url, expected_payload, mock_get):
+    def test_get_json(self, url: str,
+                      expected_payload: Dict,
+                      mock_get: MagicMock) -> None:
         """
         We don’t want to make any actual external HTTP calls.
         Use unittest.mock.patch to patch requests.get.
@@ -89,7 +91,7 @@ class TestGetJson(unittest.TestCase):
 
 class TestMemoize(unittest.TestCase):
     """class with a test_memoize method"""
-    def test_memoize(self):
+    def test_memoize(self) -> None:
         """
         Use unittest.mock.patch to mock a_method.
         Test that when calling a_property twice,
