@@ -89,14 +89,18 @@ class TestGetJson(unittest.TestCase):
 
 class TestMemoize(unittest.TestCase):
     """"""
-    def test_memoize():
+    def test_memoize(self):
         """"""
         class TestClass:
             """"""
-            @patch
             def a_method(self):
                 return 42
 
             @memoize
             def a_property(self):
                 return self.a_method()
+        test = TestClass()
+        with patch.object(TestClass, 'a_method') as patched_method:
+            test.a_property()
+            test.a_property()
+            patched_method.assert_called_once()
