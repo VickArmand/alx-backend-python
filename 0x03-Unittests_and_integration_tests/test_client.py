@@ -85,12 +85,13 @@ class TestGithubOrgClient(unittest.TestCase):
         mock_json.assert_called_once()
 
     @parameterized.expand([
-        ({"key": "my_license"}, "my_license"),
-        ({"key": "other_license"}, "my_license")
+        ({"key": "my_license"}, "my_license", False),
+        ({"key": "other_license"}, "my_license", False)
     ])
     def test_has_license(self,
                          repo: Dict[str, Dict],
-                         license_key: str) -> None:
+                         license_key: str,
+                         expected_has_license: bool) -> None:
         """
         unit-test GithubOrgClient.has_license.
         Parametrize the test with the following inputs
@@ -99,4 +100,4 @@ class TestGithubOrgClient(unittest.TestCase):
         You should also parameterize the expected returned value.
         """
         has_license = GithubOrgClient('google').has_license(repo, license_key)
-        self.assertEqual(has_license, False)
+        self.assertEqual(has_license, expected_has_license)
