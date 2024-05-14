@@ -83,3 +83,20 @@ class TestGithubOrgClient(unittest.TestCase):
                              ['episodes.dart', 'kratu'])
             patched_url.assert_called_once()
         mock_json.assert_called_once()
+
+    @parameterized.expand([
+        ({"key": "my_license"}, "my_license"),
+        ({"key": "other_license"}, "my_license")
+    ])
+    def test_has_license(self,
+                         repo: Dict[str, Dict],
+                         license_key: str) -> None:
+        """
+        unit-test GithubOrgClient.has_license.
+        Parametrize the test with the following inputs
+        repo={"license": {"key": "my_license"}}, license_key="my_license"
+        repo={"license": {"key": "other_license"}}, license_key="my_license"
+        You should also parameterize the expected returned value.
+        """
+        has_license = GithubOrgClient('google').has_license(repo, license_key)
+        self.assertEqual(has_license, False)
